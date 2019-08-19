@@ -5,6 +5,10 @@ setwd("~/Experiments/IUCN_FIX/Script/iucn_fix")
 
 if (F){
   sp_df_basic <- readOGR("../../Shape/iucn_species_Ranges/MAMMALS1", "MAMMALS") 
+  mask<-raster("../../Raster/Bioclim2.0/500m/bio01.tif")
+  sp_df<-spTransform(sp_df_basic, CRS=crs(mask))
+  writeOGR(sp_df, dsn="../../Shape/iucn_species_Ranges/MAMMALS1", layer=sprintf("%s_eck4", "MAMMALS"), overwrite_layer=T, driver="ESRI Shapefile")
+  
   
   sp_lines = as(sp_df_basic, "SpatialLinesDataFrame")
   writeOGR(sp_lines, dsn="../../Shape/ployline/iucn_species_Ranges/MAMMALS1", layer=sprintf("%s_line", "MAMMALS"), overwrite_layer=T, driver="ESRI Shapefile")
@@ -20,7 +24,7 @@ if (F){
   #writeRaster(s, "../Bioclim2.0/500m/bio01.tif", overwrite=T)
 }
 sp_df<-readOGR("../../Shape/ployline/iucn_species_Ranges/MAMMALS1", "MAMMALS_line_eck4") 
-mask<-raster("../../Raster/Bioclim2.0/500m/bio01.tif")
+mask_bak<-raster("../../Raster/Bioclim2.0/500m/bio01.tif")
 
 unique <- unique(sp_df@data$binomial)
 unique<-as.character(unique)
@@ -41,8 +45,10 @@ for (i in 1:length(unique)) {
     print("extracting the matched polylines")
     tmp <- sp_df[sp_df$binomial == bi, ] }))
   
+  mask<-mask_bak
   print(system.time({
     print("rasterizing to raster")
+    mask<-raster(extent(tmp), res=res(mask_bak), crs=crs(mask_bak))
     rp <- rasterize(tmp, mask)}))
   #
   #plot(sp_df)
@@ -53,6 +59,7 @@ for (i in 1:length(unique)) {
     no_na<-!is.na(values(rp))
     n_pixel<-length(values(rp)[no_na])
     if (n_pixel==0){
+      mask<-raster(extent(tmp@bbox), res=res(mask_bak), crs=crs(mask_bak))
       rp <- rasterize(tmp@bbox, mask)
       no_na<-!is.na(values(rp))
       n_pixel<-length(values(rp)[no_na])
