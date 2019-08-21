@@ -13,10 +13,9 @@ if (F){
   sp_lines = as(sp_df_basic, "SpatialLinesDataFrame")
   writeOGR(sp_lines, dsn="../../Shape/polyline/iucn_species_Ranges/AMPHIBIANS", layer=sprintf("%s_line", "AMPHIBIANS"), overwrite_layer=T, driver="ESRI Shapefile")
   
-  
-  mask<-raster("../../Raster/Bioclim2.0/500m/bio01.tif")
-  sp_df<-spTransform(sp_lines, CRS=crs(mask))
-  writeOGR(obj=sp_df, dsn="../../Shape/polyline/iucn_species_Ranges/AMPHIBIANS", layer="AMPHIBIANS_line_eck4", driver="ESRI Shapefile")
+
+  sp_lines_eck4<-spTransform(sp_lines, CRS=crs(mask))
+  writeOGR(obj=sp_lines_eck4, dsn="../../Shape/polyline/iucn_species_Ranges/AMPHIBIANS", layer="AMPHIBIANS_line_eck4", driver="ESRI Shapefile")
 }
 sp_df<-readOGR("../../Shape/polyline/iucn_species_Ranges/AMPHIBIANS", "AMPHIBIANS_line_eck4") 
 mask_bak<-raster("../../Raster/Bioclim2.0/500m/bio01.tif")

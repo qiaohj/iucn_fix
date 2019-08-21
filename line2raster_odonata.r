@@ -1,27 +1,26 @@
 library(raster)
 library(rgdal)
 library(rgeos)
-setwd("/Volumes/Disk2/Experiments/IUCN_FIX/Script/iucn_fix")
+setwd("~/Experiments/IUCN_FIX/Script/iucn_fix")
 
 if (F){
-  sp_df_basic <- readOGR("../../Shape/iucn_species_Ranges/Reptiles", "modeled_reptiles") 
+  sp_df_basic <- readOGR("../../Shape/iucn_species_Ranges/Odonata", "FW_ODONATA") 
   mask<-raster("../../Raster/Bioclim2.0/500m/bio01.tif")
-  sp_eck4<-spTransform(sp_df_basic, CRS=crs(mask))
-  writeOGR(sp_eck4, dsn="../../Shape/iucn_species_Ranges/Reptiles", layer=sprintf("%s_eck4", "Reptiles"), overwrite_layer=T, driver="ESRI Shapefile")
+  sp_df<-spTransform(sp_df_basic, CRS=crs(mask))
+  writeOGR(sp_df, dsn="../../Shape/iucn_species_Ranges/Odonata", layer=sprintf("%s_eck4", "Odonata"), overwrite_layer=T, driver="ESRI Shapefile")
   
   
   sp_lines = as(sp_df_basic, "SpatialLinesDataFrame")
-  writeOGR(sp_lines, dsn="../../Shape/polyline/iucn_species_Ranges/Reptiles", layer=sprintf("%s_line", "Reptiles"), overwrite_layer=T, driver="ESRI Shapefile")
-  
-  sp_lines_eck4<-spTransform(sp_lines, CRS=crs(mask))
-  writeOGR(obj=sp_lines_eck4, dsn="../../Shape/polyline/iucn_species_Ranges/Reptiles", layer="Reptiles_line_eck4", driver="ESRI Shapefile")
+  writeOGR(sp_lines, dsn="../../Shape/polyline/iucn_species_Ranges/Odonata", layer=sprintf("%s_line", "Odonata"), overwrite_layer=T, driver="ESRI Shapefile")
   
 
+  sp_lines_eck4<-spTransform(sp_lines, CRS=crs(mask))
+  writeOGR(obj=sp_lines_eck4, dsn="../../Shape/polyline/iucn_species_Ranges/Odonata", layer="Odonata_line_eck4", driver="ESRI Shapefile")
 }
-sp_df<-readOGR("../../Shape/polyline/iucn_species_Ranges/Reptiles", "Reptiles_line_eck4") 
+sp_df<-readOGR("../../Shape/polyline/iucn_species_Ranges/Odonata", "Odonata_line_eck4") 
 mask_bak<-raster("../../Raster/Bioclim2.0/500m/bio01.tif")
 
-unique <- unique(sp_df@data$Binomial)
+unique <- unique(sp_df@data$binomial)
 unique<-as.character(unique)
 
 
@@ -31,14 +30,14 @@ for (i in 1:length(unique)) {
   
   bi<-unique[i]
   print(paste(i, length(unique), bi))
-  target<-sprintf("../../Data/IUCN_Distribution_Lines/Reptiles/%s.rda", gsub(" ", "_", bi))
+  target<-sprintf("../../Data/IUCN_Distribution_Lines/Odonata/%s.rda", gsub(" ", "_", bi))
   if (file.exists(target)){
     next()
   }
   saveRDS(NA, file=target)
   print(system.time({
     print("extracting the matched polylines")
-    tmp <- sp_df[sp_df$Binomial == bi, ] }))
+    tmp <- sp_df[sp_df$binomial == bi, ] }))
   
   mask<-mask_bak
   print(system.time({
@@ -66,8 +65,8 @@ for (i in 1:length(unique)) {
       saveRDS(ppp, target)
       if (F){
         tryCatch({
-          print(sprintf("../../Raster/IUCN_Distribution_Lines/Reptiles/%s.tif", gsub(" ", "_", bi)))
-          writeRaster(rp, sprintf("../../Raster/IUCN_Distribution_Lines/Reptiles/%s.tif", gsub(" ", "_", bi)), overwrite=T)
+          print(sprintf("../../Raster/IUCN_Distribution_Lines/Odonata/%s.tif", gsub(" ", "_", bi)))
+          writeRaster(rp, sprintf("../../Raster/IUCN_Distribution_Lines/Odonata/%s.tif", gsub(" ", "_", bi)), overwrite=T)
         }, warning = function(w) {
           print("a warning")
         }, error = function(e) {
