@@ -92,3 +92,18 @@ mask<-raster("../../Raster/Bioclim2.0/500m/bio01.tif")
 r_eck4 <- projectRaster(r, crs=crs(mask), res=res(mask), method="ngb")
 writeRaster(r_eck4, "../../Raster/province_eck4.tif", overwrite=T)
 
+
+
+#Biogeographic_realms_clip
+sp_df<-readOGR("../../raw_from_Alice/IUCN", "Biogeographic_realms_clip") 
+mask<-raster("../../Raster/Bioclim2.0/500m/bio01.tif")
+sp_df_eck4<-spTransform(sp_df, CRS=crs(mask))
+writeOGR(obj=sp_df_eck4, dsn="../../Shape/polygon", layer="Biogeographic_realms_clip_eck4", driver="ESRI Shapefile")
+
+crs(sp_df_eck4)
+
+sp_df_eck4<-readOGR("../../Shape/polygon", "Biogeographic_realms_clip_eck4") 
+extent(mask)<-extent(sp_df_eck4)
+rp <- rasterize(sp_df_eck4, mask)
+writeRaster(rp, "../../Raster/Biogeographic_realms_clip_eck4.tif", overwrite=T)
+
