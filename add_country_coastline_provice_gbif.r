@@ -3,7 +3,7 @@ setwd("~/Experiments/IUCN_FIX/Script/iucn_fix")
 
 
 if (F){
-  df<-readRDS("../../Data/occ_without_NA_coordinate/Aves.RData")
+  df<-readRDS("/Volumes/Disk2/Experiments/Huijie/Data/occ_without_NA_coordinate/GBIF/Aves.RData")
   colnames(df)[4]<-'order'
   df<-df[which((!is.na(df$decimalLongitude))&(!is.na(df$decimalLatitude))),]
   head(df[which(is.na(df$decimalLongitude)),])
@@ -13,7 +13,7 @@ if (F){
   points_eck4<-spTransform(points, CRS="+proj=eck4 +lon_0=0 +x_0=0 +y_0=0 +ellps=WGS84 +units=m +no_defs")
   df_eck4<-data.frame(points_eck4)
   colnames(df_eck4)[9:10]<-c("lon_eck4", "lat_eck4")
-  saveRDS(df_eck4, "../../Data/occ_without_NA_coordinate/Aves_with_eck4.RData")
+  saveRDS(df_eck4, "Aves_with_eck4.RData")
   
 }
 country<-raster("../../Raster/country_boundaries_eck4.tif")
