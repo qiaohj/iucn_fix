@@ -2,9 +2,12 @@ library("raster")
 df<-readRDS("/Volumes/Disk2/Experiments/Huijie/Data/occ_without_NA_coordinate/GBIF/Aves.RData")
 colnames(df)[4]<-'order'
 df<-df[which((!is.na(df$decimalLongitude))&(!is.na(df$decimalLatitude))),]
+df<-df[which(between(df$decimalLongitude, -180, 180)),]
+df<-df[which(between(df$decimalLatitude, -90, 90)),]
+
 head(df[which(is.na(df$decimalLongitude)),])
 
-
+library(dplyr)
 species<-unique(df$species)
 length(species)
 sp<-species[1]
@@ -16,6 +19,9 @@ for (sp in species){
   }
   saveRDS(NA, file)
   item<-df[which(df$species==sp),]
+  
+  
+  
   points<-SpatialPointsDataFrame(item[, c("decimalLongitude", "decimalLatitude")], item, 
                                  proj4string = CRS("+proj=longlat +datum=WGS84 +no_defs +ellps=WGS84 +towgs84=0,0,0"))
   
