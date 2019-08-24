@@ -1,4 +1,5 @@
 library("raster")
+library("dplyr")
 df<-readRDS("/Volumes/Disk2/Experiments/Huijie/Data/occ_without_NA_coordinate/GBIF/Aves.RData")
 colnames(df)[4]<-'order'
 df<-df[which((!is.na(df$decimalLongitude))&(!is.na(df$decimalLatitude))),]
@@ -7,12 +8,12 @@ df<-df[which(between(df$decimalLatitude, -90, 90)),]
 
 head(df[which(is.na(df$decimalLongitude)),])
 
-library(dplyr)
+
 species<-unique(df$species)
 length(species)
 sp<-species[1]
 for (sp in species){
-  print(sp)
+  print(paste(sp, i, length(species), sep="/"))
   file<-sprintf("/Volumes/Disk2/Experiments/Huijie/Data/aves_eck4_species_by_species/%s.rda", gsub(" ", "_", sp))
   if (file.exists(file)){
     next()
