@@ -12,7 +12,7 @@ species<-unique(df$species)
 length(species)
 sp<-species[1]
 for (sp in species){
-  print(sp)
+  print(paste(sp, i, length(species), sep="/"))
   file<-sprintf("/Volumes/Disk2/Experiments/Huijie/Data/aves_eck4_species_by_species/%s.rda", gsub(" ", "_", sp))
   if (file.exists(file)){
     next()
