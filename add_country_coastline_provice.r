@@ -1,7 +1,7 @@
 library("raster")
 setwd("~/Experiments/IUCN_FIX/Script/iucn_fix")
-folder<-"../../Data/IUCN_Distribution_Lines/Birds"
-target<-"../../Data/IUCN_Distribution_Lines/Birds_With_Boundary"
+folder<-"../../Data/IUCN_Distribution_Lines/Reptiles"
+target<-"../../Data/IUCN_Distribution_Lines/Reptiles_With_Boundary"
 files <- list.files(folder, pattern = "\\.rda$")
 country<-raster("../../Raster/country_boundaries_eck4.tif")
 coastline<-raster("../../Raster/coastal_boundaries_eck4.tif")

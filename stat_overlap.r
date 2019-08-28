@@ -1,16 +1,16 @@
 library("raster")
 setwd("~/Experiments/IUCN_FIX/Script/iucn_fix")
 
-group<-"MAMMALS"
+group<-"Reptiles"
 folder<-sprintf("../../Data/IUCN_Distribution_Lines/%s_With_Boundary", group)
 
 files <- list.files(folder, pattern = "\\.rda$")
 
 f<-files[2]
 df_result<-data.frame()
-
+f<-"Hemidactylus_frenatus.rda"
 for (f in files){
-  print(f)
+  print(paste(group, f))
 
   df<-readRDS(sprintf("%s/%s", folder, f))
   n_all<-nrow(df)
@@ -43,6 +43,6 @@ write.table(df_result, sprintf("../../Tables/%s_overlap.csv", group), row.names=
 
 if (F){
   df_result<-read.table(sprintf("../../Tables/%s_overlap.csv", group), head=T, sep=",", stringsAsFactors = F)
-  hist(df_result$n_country/df_result$n)
-  hist(df_result$n_province/df_result$n)
+  hist(df_result$n_country/df_result$n_all)
+  hist(df_result$n_province/df_result$n_all)
 }
