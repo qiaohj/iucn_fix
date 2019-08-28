@@ -1,5 +1,5 @@
 library("raster")
-setwd("~/Experiments/IUCN_FIX/Script/iucn_fix")
+setwd("/Volumes/Disk2/Experiments/IUCN_FIX/Script/iucn_fix")
 
 
 if (F){
@@ -17,7 +17,7 @@ if (F){
   
 }
 
-df<-readRDS("../../Data/occ_without_NA_coordinate/Mammalia_with_eck4.RData")
+df<-readRDS("../../Data/occ_without_NA_coordinate/Reptilia_with_eck4.RData")
 country<-raster("../../Raster/country_boundaries_eck4.tif")
 coastline<-raster("../../Raster/coastal_boundaries_eck4.tif")
 province<-raster("../../Raster/province_eck4.tif")
@@ -27,7 +27,7 @@ realm<-raster("../../Raster/Biogeographic_realms_clip_eck4.tif")
 species<-unique(df$species)
 sp<-species[1]
 
-target<-"../../Data/GBIF_More_Data/Mammals/%s.rda"
+target<-"../../Data/GBIF_More_Data/Reptiles/%s.rda"
 i=1
 for (i in c(1:length(species))){
   sp<-species[i]
