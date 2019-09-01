@@ -7,10 +7,10 @@ if (F){
   sp_df <- readOGR(dsn="../../Shape/iucn_species_Ranges/Birds", layer="BIRD_eck4") 
   
   sp_lines = as(sp_df, "SpatialLinesDataFrame")
-  writeOGR(sp_lines, dsn="../../Shape/ployline/iucn_species_Ranges/Birds", layer=sprintf("%s_line_eck4", "Birds"), overwrite_layer=T, driver="ESRI Shapefile")
+  writeOGR(sp_lines, dsn="../../Shape/polyline/iucn_species_Ranges/Birds", layer=sprintf("%s_line_eck4", "Birds"), overwrite_layer=T, driver="ESRI Shapefile")
  
 }
-sp_lines<-readOGR("../../Shape/ployline/iucn_species_Ranges/Birds", "Birds_line_eck4") 
+sp_lines<-readOGR("../../Shape/polyline/iucn_species_Ranges/Birds", "Birds_line_eck4") 
 mask_bak<-raster("../../Raster/Bioclim2.0/500m/bio01.tif")
 
 unique <- unique(sp_lines@data$SCINAME)

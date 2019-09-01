@@ -4,7 +4,7 @@ library(rgeos)
 setwd("~/Experiments/IUCN_FIX/Script/iucn_fix")
 
 if (F){
-  sp_df_basic <- readOGR("../../Shape/iucn_species_Ranges/Odonata", "FW_ODONATA") 
+  sp_df_basic <- readOGR("../../Shape/iucn_species_Ranges/Odonata", "data_0") 
   mask<-raster("../../Raster/Bioclim2.0/500m/bio01.tif")
   sp_df<-spTransform(sp_df_basic, CRS=crs(mask))
   writeOGR(sp_df, dsn="../../Shape/iucn_species_Ranges/Odonata", layer=sprintf("%s_eck4", "Odonata"), overwrite_layer=T, driver="ESRI Shapefile")
@@ -20,7 +20,7 @@ if (F){
 sp_df<-readOGR("../../Shape/polyline/iucn_species_Ranges/Odonata", "Odonata_line_eck4") 
 mask_bak<-raster("../../Raster/Bioclim2.0/500m/bio01.tif")
 
-unique <- unique(sp_df@data$binomial)
+unique <- unique(sp_df@data$BINOMIAL)
 unique<-as.character(unique)
 
 
@@ -37,7 +37,7 @@ for (i in 1:length(unique)) {
   saveRDS(NA, file=target)
   print(system.time({
     print("extracting the matched polylines")
-    tmp <- sp_df[sp_df$binomial == bi, ] }))
+    tmp <- sp_df[sp_df$BINOMIAL == bi, ] }))
   
   mask<-mask_bak
   print(system.time({

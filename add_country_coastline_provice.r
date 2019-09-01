@@ -1,7 +1,7 @@
 library("raster")
 setwd("~/Experiments/IUCN_FIX/Script/iucn_fix")
-folder<-"../../Data/IUCN_Distribution_Lines/Reptiles"
-target<-"../../Data/IUCN_Distribution_Lines/Reptiles_With_Boundary"
+folder<-"../../Data/IUCN_Distribution_Lines/Odonata"
+target<-"../../Data/IUCN_Distribution_Lines/Odonata_With_Boundary"
 files <- list.files(folder, pattern = "\\.rda$")
 country<-raster("../../Raster/country_boundaries_eck4.tif")
 coastline<-raster("../../Raster/coastal_boundaries_eck4.tif")
@@ -9,6 +9,7 @@ province<-raster("../../Raster/province_eck4.tif")
 bio1<-raster("../../Raster/Bioclim2.0/500m/bio01.tif")
 realm<-raster("../../Raster/Biogeographic_realms_clip_eck4.tif")
 f<-files[1]
+i=1
 for (i in c(1:length(files))){
   f<-files[i]
   print(paste(f, i, length(files), sep="/"))

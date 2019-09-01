@@ -1,7 +1,7 @@
 library("raster")
 setwd("~/Experiments/IUCN_FIX/Script/iucn_fix")
 
-group<-"Reptiles"
+group<-"Odonata"
 folder<-sprintf("../../Data/IUCN_Distribution_Lines/%s_With_Boundary", group)
 
 files <- list.files(folder, pattern = "\\.rda$")

@@ -11,11 +11,11 @@ if (F){
   
   
   sp_lines = as(sp_df_basic, "SpatialLinesDataFrame")
-  writeOGR(sp_lines, dsn="../../Shape/ployline/iucn_species_Ranges/MAMMALS1", layer=sprintf("%s_line", "MAMMALS"), overwrite_layer=T, driver="ESRI Shapefile")
+  writeOGR(sp_lines, dsn="../../Shape/polyline/iucn_species_Ranges/MAMMALS1", layer=sprintf("%s_line", "MAMMALS"), overwrite_layer=T, driver="ESRI Shapefile")
   
   mask<-raster("../../Raster/Bioclim2.0/500m/bio01.tif")
   sp_df<-spTransform(sp_lines, CRS=crs(mask))
-  writeOGR(obj=sp_df, dsn="../../Shape/ployline/iucn_species_Ranges/MAMMALS1", layer="MAMMALS_line_eck4", driver="ESRI Shapefile")
+  writeOGR(obj=sp_df, dsn="../../Shape/polyline/iucn_species_Ranges/MAMMALS1", layer="MAMMALS_line_eck4", driver="ESRI Shapefile")
   
   #s <- mask
   #res(s)<-c(500, 500)
@@ -23,7 +23,7 @@ if (F){
   #s <- resample(mask, s, method='bilinear')
   #writeRaster(s, "../Bioclim2.0/500m/bio01.tif", overwrite=T)
 }
-sp_df<-readOGR("../../Shape/ployline/iucn_species_Ranges/MAMMALS1", "MAMMALS_line_eck4") 
+sp_df<-readOGR("../../Shape/polyline/iucn_species_Ranges/MAMMALS1", "MAMMALS_line_eck4") 
 mask_bak<-raster("../../Raster/Bioclim2.0/500m/bio01.tif")
 
 unique <- unique(sp_df@data$binomial)
