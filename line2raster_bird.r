@@ -4,6 +4,9 @@ library(rgeos)
 setwd("~/Experiments/IUCN_FIX/Script/iucn_fix")
 
 if (F){
+  
+  bird <- sf::st_read(dsn = "/home/huijieqiao/Experiments/IUCN_FIX/raw_from_Alice/IUCN/iucn_species_Ranges/Birds/BOTW.gdb", layer = "All_Species")
+  sf::st_write(bird, "../../Shape/iucn_species_Ranges/Birds/BIRD.shp")
   sp_df <- readOGR(dsn="../../Shape/iucn_species_Ranges/Birds", layer="BIRD_eck4") 
   
   sp_lines = as(sp_df, "SpatialLinesDataFrame")
