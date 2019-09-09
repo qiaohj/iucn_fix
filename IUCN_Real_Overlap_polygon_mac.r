@@ -3,7 +3,7 @@ library(rgdal)
 library(rgeos)
 require(geosphere)
 
-setwd("~/Experiments/IUCN_FIX/Script/iucn_fix")
+setwd("/Volumes/Disk2/Experiments/IUCN_FIX/Script/iucn_fix")
 
 polygon_distribution<-c("../../Shape/iucn_species_Ranges/AMPHIBIANS",
                         "../../Shape/iucn_species_Ranges/Birds",
@@ -26,7 +26,7 @@ sp_df_basic <- readOGR(polygon_distribution[i], layers_distribution[i])
 all_species<-unique(sp_df_basic@data[, sp_labels[i]])
 j=1
 dir.create(sprintf("../../Data/IUCN_Realm_Polygon/Temp_Tables/%s", groups[i]), showWarnings = F)
-for (j in c(1:length(all_species))){
+for (j in c(length(all_species):1)){
   print(paste(groups[i], j, length(all_species), sep=","))
   
   f<-sprintf("../../Data/IUCN_Realm_Polygon/Temp_Tables/%s/%s.rda", groups[i], gsub(" ", "_", all_species[j]))
@@ -40,20 +40,10 @@ for (j in c(1:length(all_species))){
   items_all<-data.frame()
   for (realm_i in unique(realm@data$REALM)){
     realm_f<-realm[which(realm@data$REALM==realm_i),]
+    
     tryCatch(
       {
         overlap<-gIntersection(sp_polygon, realm_f)
-        if (is.null(overlap)){
-          item<-data.frame(realm=realm_i, area=NA, group=groups[i], sciname=all_species[j])
-        }else{
-          item<-data.frame(realm=realm_i, area=area(overlap), group=groups[i], sciname=all_species[j])
-        }
-        
-        if (nrow(items_all)==0){
-          items_all<-item
-        }else{
-          items_all<-rbind(items_all, item)
-        }
       },
       error=function(cond) {
         print("Error")
@@ -66,6 +56,17 @@ for (j in c(1:length(all_species))){
         print("Finally Done!")
       }
     )
+    if (is.null(overlap)){
+      item<-data.frame(realm=realm_i, area=NA, group=groups[i], sciname=all_species[j])
+    }else{
+      item<-data.frame(realm=realm_i, area=area(overlap), group=groups[i], sciname=all_species[j])
+    }
+    
+    if (nrow(items_all)==0){
+      items_all<-item
+    }else{
+      items_all<-rbind(items_all, item)
+    }
   }
   saveRDS(items_all, f)
 }
