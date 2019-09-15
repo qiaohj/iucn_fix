@@ -43,6 +43,17 @@ for (j in c(1:length(all_species))){
     tryCatch(
       {
         overlap<-gIntersection(sp_polygon, realm_f)
+        if (is.null(overlap)){
+          item<-data.frame(realm=realm_i, area=NA, group=groups[i], sciname=all_species[j])
+        }else{
+          item<-data.frame(realm=realm_i, area=area(overlap), group=groups[i], sciname=all_species[j])
+        }
+        
+        if (nrow(items_all)==0){
+          items_all<-item
+        }else{
+          items_all<-rbind(items_all, item)
+        }
       },
       error=function(cond) {
         print("Error")
@@ -55,17 +66,6 @@ for (j in c(1:length(all_species))){
         print("Finally Done!")
       }
     )
-    if (is.null(overlap)){
-      item<-data.frame(realm=realm_i, area=NA, group=groups[i], sciname=all_species[j])
-    }else{
-      item<-data.frame(realm=realm_i, area=area(overlap), group=groups[i], sciname=all_species[j])
-    }
-    
-    if (nrow(items_all)==0){
-      items_all<-item
-    }else{
-      items_all<-rbind(items_all, item)
-    }
   }
   saveRDS(items_all, f)
 }
