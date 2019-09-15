@@ -1,0 +1,16 @@
+library("raster")
+setwd("~/Experiments/IUCN_FIX/Script/iucn_fix")
+r<-raster("../../Raster/Odonata_Basin/obonata_basin.tif")
+mask<-raster("../../Raster/Bioclim2.0/500m/bio01.tif")
+print("reproject")
+rr<-projectRaster(r, crs=crs(mask), res=res(mask), method="ngb")
+res(rr)
+extent(rr)
+print("write reproject")
+writeRaster(rr, "../../Raster/Odonata_basin_overlap_eck4.tif", overwrite=T)
+
+print("buffer")
+rr_buffer<-buffer(rr, width=500)
+
+print("write buffer")
+writeRaster(rr_buffer, "../../Raster/Odonata_basin_overlap_eck4_500_buffer.tif", overwrite=T)
