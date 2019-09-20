@@ -2,7 +2,7 @@ setwd("~/Experiments/IUCN_FIX/Script/iucn_fix")
 
 get_result<-function(syn_list, name_list, group, name_list1, name_list2){
   if (is.null(dim(syn_list))){
-    syn_list<-gsub(".rda", "", syn_list)
+    syn_list<-gsub("\\.rda", "", syn_list)
     syn_list<-gsub("_", " ", syn_list)
     syn_list<-toupper(syn_list)
     syn_list<-data.frame(a1=syn_list, a2=syn_list)
@@ -11,7 +11,7 @@ get_result<-function(syn_list, name_list, group, name_list1, name_list2){
   syn_list$realname<-toupper(trimws(syn_list$realname, which="both"))
   syn_list$synonym<-toupper(trimws(syn_list$synonym, which="both"))
   
-  name_list<-gsub(".rda", "", name_list)
+  name_list<-gsub("\\.rda", "", name_list)
   name_list<-gsub("_", " ", name_list)
   name_list<-toupper(name_list)
   

@@ -2,7 +2,7 @@ setwd("~/Experiments/IUCN_FIX/Script/iucn_fix")
 
 get_result<-function(syn_list, name){
   if (is.null(dim(syn_list))){
-    syn_list<-gsub(".rda", "", syn_list)
+    syn_list<-gsub("\\.rda", "", syn_list)
     syn_list<-gsub("_", " ", syn_list)
     syn_list<-toupper(syn_list)
     syn_list<-data.frame(a1=syn_list, a2=syn_list)
@@ -11,7 +11,7 @@ get_result<-function(syn_list, name){
   syn_list$realname_upper<-toupper(trimws(syn_list$realname, which="both"))
   syn_list$synonym_upper<-toupper(trimws(syn_list$synonym, which="both"))
   
-  name<-gsub(".rda", "", name)
+  name<-gsub("\\.rda", "", name)
   name<-gsub("_", " ", name)
   name_or<-name
   name<-toupper(name)
@@ -65,7 +65,32 @@ syn_list<-read.table(syn_lists[i], head=T, sep=",", stringsAsFactors = F)
 IUCN_List<-list.files(IUCN_Lists[i])
 GBIF_List<-list.files(GBIF_Lists[i])
 realm_list<-read.table(realm_lists[i], head=T, sep=",", stringsAsFactors = F)
+
+true_realm<-read.table("../../Tables/true_synonyms.csv", head=T, sep=",", stringsAsFactors = F)
+true_realm<-true_realm[which(true_realm$group==groups[i]),]
+if (nrow(true_realm)==0){
+  print(Asdfsadf)
+}
 j=1
+
+#remove duplicated synonyms 
+n_syn<-data.frame(table(syn_list$synonym))
+syn_list<-syn_list[which(!(syn_list$synonym %in% n_syn[which(n_syn$Freq>1), "Var1"])),]
+
+for (j in c(1:nrow(true_realm))){
+  item<-true_realm[j,]
+  acc_item<-syn_list[which(syn_list$synonym==item$synonym),]
+  if (nrow(acc_item)!=1){
+    next()
+  }
+  
+  if (nrow(syn_list[which((syn_list$synonym!=item$synonym)&(syn_list$realName==acc_item$realName)),])>0){
+    syn_list<-syn_list[-which((syn_list$synonym!=item$synonym)&(syn_list$realName==acc_item$realName)),]
+  }
+  
+}
+
+
 result<-data.frame()
 for (j in c(1:length(IUCN_List))){
   print(paste(groups[i], IUCN_List[j], j, length(IUCN_List), sep="/"))
