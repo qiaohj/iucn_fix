@@ -18,6 +18,7 @@ rp <- rasterize(sp_df_eck4, mask)
 writeRaster(rp, "../../Raster/country_boundaries_eck4.tif", overwrite=T)
 
 
+
 #coastal_boundaries
 sp_df<-readOGR("../../raw_from_Alice/IUCN", "coastal_boundaries") 
 mask<-raster("../../Raster/Bioclim2.0/500m/bio01.tif")

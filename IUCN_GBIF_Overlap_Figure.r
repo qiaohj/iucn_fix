@@ -2,9 +2,7 @@ library(ggplot2)
 groups<-c("Amphibians", "Birds", "Mammals", "Odonata", "Reptiles")
 ddd<-data.frame()
 for (group in groups){
-  if (group %in% c("Birds")){
-    next()
-  }
+  
   print(group)
   df1<-read.table(sprintf("../../Tables/realm_GBIF_OBIS_Overlap_error/%s.csv", group), head=T, sep=",", stringsAsFactors = F)
   df2<-read.table(sprintf("../../Tables/realm_GBIF_OBIS_Overlap/%s.csv", group), head=T, sep=",", stringsAsFactors = F)
