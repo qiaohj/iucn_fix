@@ -17,6 +17,13 @@ extent(mask)<-extent(sp_df_eck4)
 rp <- rasterize(sp_df_eck4, mask)
 writeRaster(rp, "../../Raster/country_boundaries_eck4.tif", overwrite=T)
 
+#country_boundaries new 
+sp_df_eck4<-readOGR("../../Shape/polyline", "world_line_eck4")  
+extent(mask)<-extent(sp_df_eck4)
+rp <- rasterize(sp_df_eck4, mask)
+writeRaster(rp, "../../Raster/country_boundaries_eck4_new.tif", overwrite=T)
+
+
 
 
 #coastal_boundaries
