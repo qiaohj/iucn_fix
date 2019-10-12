@@ -1,14 +1,17 @@
 library("raster")
 setwd("~/Experiments/IUCN_FIX/Script/iucn_fix")
+groups<-c("Amphibians", "Birds", "Mammals", "Odonata", "Reptiles")
 
-group<-"Odonata"
+args = commandArgs(trailingOnly=TRUE)
+i<-as.numeric(args[1])
+group<-groups[i]
 folder<-sprintf("../../Data/IUCN_Distribution_Lines/%s_With_Boundary", group)
 
 files <- list.files(folder, pattern = "\\.rda$")
 
 f<-files[2]
 df_result<-data.frame()
-f<-"Hemidactylus_frenatus.rda"
+f<-"Acanthaeschna_victoria.rda"
 for (f in files){
   print(paste(group, f))
 
@@ -23,6 +26,11 @@ for (f in files){
   
   #overlap with country boundary
   n_country<-nrow(df[which(!is.na(df$country)),])
+  n_country_500<-nrow(df[which(!is.na(df$country_500)),])
+  n_country_1000<-nrow(df[which(!is.na(df$country_1000)),])
+  n_country_2500<-nrow(df[which(!is.na(df$country_2500)),])
+  n_country_5000<-nrow(df[which(!is.na(df$country_5000)),])
+  
   n_province<-nrow(df[which(!is.na(df$province)),])
   n_no_coastline<-nrow(df)
   item<-data.frame(species=gsub(".rda", "", f), 
@@ -32,6 +40,10 @@ for (f in files){
                    n_coastline=n_coastline,
                    n_no_coastline=n_no_coastline,
                    n_country=n_country, 
+                   n_country_500=n_country_500, 
+                   n_country_1000=n_country_1000, 
+                   n_country_2500=n_country_2500, 
+                   n_country_5000=n_country_5000, 
                    n_province=n_province)
   if (nrow(df_result)==0){
     df_result<-item
