@@ -3,7 +3,7 @@ library(rgdal)
 library(rgeos)
 library(dplyr)
 
-setwd("~/Experiments/IUCN_FIX/Script/iucn_fix")
+setwd("/media/huijieqiao/WD12T/Experiments/IUCN_FIX/Script/iucn_fix")
 
 args = commandArgs(trailingOnly=TRUE)
 i<-as.numeric(args[1])
@@ -37,7 +37,7 @@ if (i==3){
   group<-"Mammals"
   
   sp_df<-readOGR("../../Shape/iucn_species_Ranges/MAMMALS1", "MAMMALS_eck4") 
-  folder<-"../../Data/IUCN_Distribution_Lines/MAMMALS_With_Boundary"
+  folder<-"../../Data/IUCN_Distribution_Lines/Mammals_With_Boundary"
   GBIF_Folder<-"../../Data/GBIF_More_Data/Mammals"
   IUCN_List<-list.files(folder)
   realm_ids<-read.table("../../Tables/Realm/Realm_IDs.csv", head=T, sep=",", stringsAsFactors = F)
