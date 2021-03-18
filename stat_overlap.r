@@ -1,5 +1,5 @@
 library("raster")
-setwd("~/Experiments/IUCN_FIX/Script/iucn_fix")
+setwd("/media/huijieqiao/WD12T/Experiments/IUCN_FIX/Script/iucn_fix")
 groups<-c("Amphibians", "Birds", "Mammals", "Odonata", "Reptiles")
 
 args = commandArgs(trailingOnly=TRUE)
@@ -54,7 +54,20 @@ for (f in files){
 write.table(df_result, sprintf("../../Tables/%s_overlap.csv", group), row.names=F, sep=",")
 
 if (F){
+  groups<-c("Amphibians", "Birds", "Mammals", "Odonata", "Reptiles")
+  group<-groups[5]
   df_result<-read.table(sprintf("../../Tables/%s_overlap.csv", group), head=T, sep=",", stringsAsFactors = F)
+  N1<-nrow(df_result[which(df_result$n_country_500>0),])
+  N1/nrow(df_result)
+  
+  N1<-nrow(df_result[which(df_result$n_province>0),])
+  N1/nrow(df_result)
+  
+  sum(df_result$n_country_500)/sum(df_result$n_continent-df_result$n_coastline)
+  
+  sum(df_result$n_country_500)/sum(df_result$n_no_coastline)
+  
+  df_result$n_country_500/
   hist(df_result$n_country/df_result$n_all)
   hist(df_result$n_province/df_result$n_all)
 }
